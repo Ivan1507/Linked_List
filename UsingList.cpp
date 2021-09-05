@@ -8,9 +8,34 @@ class Node_T{
 struct ListNode{
 	int val;
 	ListNode *next;
-	~ListNode(){
-		delete next;
+	ListNode(int data,ListNode *t){
+		val=data;
+		next=t;
 	}
+	ListNode(){
+
+	}
+	ListNode(const ListNode* t){
+		val=t->val;
+		next=t->next;
+	}
+	~ListNode(){
+		ListNode *head=this;
+		while(head!=nullptr){
+			ListNode *tmp=head;
+			head=head->next;
+			delete tmp;
+		}
+	}
+	void deleteList(){
+		ListNode *head=this;
+		while(head!=nullptr){
+			ListNode *tmp=head;
+			head=head->next;
+			delete tmp;
+		}
+	}
+
 	void push_back(ListNode **head,int data){	
 		if(*head==nullptr){
 			ListNode *n=new ListNode;
@@ -54,6 +79,11 @@ struct ListNode{
 			}
 			else tmp=tmp->next;
 		}	
+	}
+	void printReverse(ListNode *head){
+		if(head==nullptr) return;
+		printReverse(head->next);
+		std::cout<<head->val<<" ";
 	}
 	void reverse(ListNode **head){
 		ListNode *prev=nullptr;
@@ -106,13 +136,7 @@ struct ListNode{
 	}
 };
 int main(){
-	std::list<int> l;
-	l.push_back(1);
-	l.push_back(2);
-	l.push_front(5);
-	auto s=l.begin();
-	auto e=l.end();
-	ListNode *node=nullptr;
+	ListNode *node=new ListNode(0,nullptr);
 	node->push_back(&node,1);
 	node->push_back(&node,2);
 	node->push_back(&node,3);
@@ -120,8 +144,13 @@ int main(){
 	node->push_back(&node,5);
 	node->push_back(&node,6);
 	node->push_back(&node,7);
-	node->go_thr();
-	node->doMagic(node);
-	node->go_thr();
+	ListNode *nn(node);
+	nn->printReverse(nn);
+	nn->push_back(&nn,8);
+	std::cout<<'\n';
+	nn->go_thr();
+	nn->reorderList(nn);
+	nn->go_thr();
+
 	return 0;
 }
